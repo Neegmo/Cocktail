@@ -16,7 +16,7 @@ export default class Glass extends Phaser.GameObjects.Sprite {
     this.setInteractive();
 
     this.on("pointerup", () => {
-      if (this.colorSequence.length >= 6) return;
+      if (this.colorSequence.length >= 6 || scene.canGenerateColor) return;
       scene.moveShotGlassToTarget(this);
     });
 
