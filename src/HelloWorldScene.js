@@ -10,13 +10,17 @@ export default class HelloWorldScene extends Phaser.Scene {
 
   getNextColorButton;
 
-  colorSequence = ["Pink", "Blue", "Purple", "Orange","Yellow", "Green", "Red"];
+  colorSequence = ["Pink", "Blue", "Purple", "Orange", "Yellow"];
 
   nextColor;
 
   bet = 10;
 
   canGenerateColor = true;
+
+  highestPriceSequence = [2, 7, 25, 40, 70, 150];
+  middlePriceSequence = [0.5, 1.5, 3, 10, 25, 40];
+  smallestPriceSequence = [0.25, 0.75, 1.8, 5, 12, 20];
 
   preload() {
     this.load.baseURL = "Assets/";
@@ -44,14 +48,53 @@ export default class HelloWorldScene extends Phaser.Scene {
     this.createHUD();
 
     this.shotGlass = this.add.image(530, 1500, "ShotGlass").setScale(0.5, 0.5);
+
+    this.createLegend();
+  }
+
+  createLegend() {
+    this.add.image(130, 200, "Blue").setScale(0.5, 0.5);
+    this.add.image(330, 200, "Purple").setScale(0.5, 0.5);
+
+    this.add.text(
+      250,
+      400,
+      `1: x${this.middlePriceSequence[0]}\n2: x${this.middlePriceSequence[1]}\n3: x${this.middlePriceSequence[2]}\n4: x${this.middlePriceSequence[3]}\n5: x${this.middlePriceSequence[4]}\n6: x${this.middlePriceSequence[5]}\n`,
+      {
+        font: "600 35px Roboto",
+      }
+    ).setOrigin(0.5, 0.5);
+
+    this.add.image(530, 200, "Pink").setScale(0.5, 0.5);
+
+    this.add.text(
+      540,
+      400,
+      `1: x${this.highestPriceSequence[0]}\n2: x${this.highestPriceSequence[1]}\n3: x${this.highestPriceSequence[2]}\n4: x${this.highestPriceSequence[3]}\n5: x${this.highestPriceSequence[4]}\n6: x${this.highestPriceSequence[5]}\n`,
+      {
+        font: "600 35px Roboto",
+      }
+    ).setOrigin(0.5, 0.5);
+
+    this.add.image(730, 200, "Orange").setScale(0.5, 0.5);
+    this.add.image(930, 200, "Yellow").setScale(0.5, 0.5);
+
+    this.add.text(
+      840,
+      400,
+      `1: x${this.smallestPriceSequence[0]}\n2: x${this.smallestPriceSequence[1]}\n3: x${this.smallestPriceSequence[2]}\n4: x${this.smallestPriceSequence[3]}\n5: x${this.smallestPriceSequence[4]}\n6: x${this.smallestPriceSequence[5]}\n`,
+      {
+        font: "600 35px Roboto",
+      }
+    ).setOrigin(0.5, 0.5);
   }
 
   update() {
     if (this.nextShot === undefined) return;
-    this.nextShot.x = this.shotGlass.x
-    this.nextShot.y = this.shotGlass.y + 25
+    this.nextShot.x = this.shotGlass.x;
+    this.nextShot.y = this.shotGlass.y + 25;
     // this.nextShot.Rotation = this.shotGlass.rotation
-    this.nextShot.setRotation(this.shotGlass.rotation)
+    this.nextShot.setRotation(this.shotGlass.rotation);
   }
 
   createHUD() {
@@ -77,22 +120,18 @@ export default class HelloWorldScene extends Phaser.Scene {
 
   getRandomColor() {
     this.nextColorNumber = Phaser.Math.Between(1, 100);
-    console.log(this.nextColorNumber)
+    console.log(this.nextColorNumber);
 
-    if (this.nextColorNumber < 1) {
+    if (this.nextColorNumber < 5) {
       this.nextColor = this.colorSequence[0];
-    } else if (this.nextColorNumber < 8.5) {
+    } else if (this.nextColorNumber < 17) {
       this.nextColor = this.colorSequence[1];
-    } else if (this.nextColorNumber < 16) {
+    } else if (this.nextColorNumber < 29) {
       this.nextColor = this.colorSequence[2];
-    } else if (this.nextColorNumber < 37) {
+    } else if (this.nextColorNumber < 65) {
       this.nextColor = this.colorSequence[3];
-    } else if (this.nextColorNumber < 58) {
-      this.nextColor = this.colorSequence[4];
-    } else if (this.nextColorNumber < 79) {
-      this.nextColor = this.colorSequence[5];
     } else {
-      this.nextColor = this.colorSequence[6];
+      this.nextColor = this.colorSequence[4];
     }
   }
 
@@ -102,8 +141,12 @@ export default class HelloWorldScene extends Phaser.Scene {
     this.nextShot = this.add
       .image(530, 1525, this.nextColor)
       .setScale(0.5, 0.5);
-    this.updateBalance(-10)
-    this.canGenerateColor  = false;
+    this.updateBalance(-10);
+    this.canGenerateColor = false;
+
+    this.glass1.countDown();
+    this.glass2.countDown();
+    this.glass3.countDown();
   }
 
   createGetNextColorButton() {
@@ -135,9 +178,9 @@ export default class HelloWorldScene extends Phaser.Scene {
       duration: 500,
       onComplete: () => {
         console.log("Movement completed");
-        glass.addNextShot(this.nextShot.texture)
-        this.nextShot.destroy()
-        this.nextShot = undefined
+        glass.addNextShot(this.nextShot.texture);
+        this.nextShot.destroy();
+        this.nextShot = undefined;
         this.tweens.add({
           targets: this.shotGlass,
           angle: "-=120",
@@ -155,8 +198,8 @@ export default class HelloWorldScene extends Phaser.Scene {
               ease: "Sine.easeOut",
               duration: 500,
               onComplete: () => {
-                this.canGenerateColor = true
-              }
+                this.canGenerateColor = true;
+              },
             });
           },
         });
@@ -165,7 +208,7 @@ export default class HelloWorldScene extends Phaser.Scene {
   }
 
   updateBalance(ammount) {
-    this.balance += ammount
-    this.balanceText.text = `Balance: ${this.balance}`
+    this.balance += ammount;
+    this.balanceText.text = `Balance: ${this.balance}`;
   }
 }
