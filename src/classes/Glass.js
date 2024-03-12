@@ -9,9 +9,9 @@ export default class Glass extends Phaser.GameObjects.Sprite {
     this.colorHight = 0;
     this.price = 0;
 
-    this.highestPriceSequence = [2, 8.5, 160, 2500, 10000, 50000];
-    this.middlePriceSequence = [0.5, 1.5, 13, 125, 1000, 5000];
-    this.smallestPriceSequence = [0.25, 0.75, 2, 5.5, 15, 40];
+    this.highestPriceSequence = [1.2, 3, 5, 25, 50, 200];
+    this.middlePriceSequence = [0.8, 1.5, 2.5, 5, 15, 50];
+    this.smallestPriceSequence = [0.5, 1.05, 1.5, 2.5, 5.2, 15];
 
     this.setInteractive();
 
@@ -32,15 +32,14 @@ export default class Glass extends Phaser.GameObjects.Sprite {
     this.sellGlass.on("pointerup", () => {
       if (!scene.canGenerateColor) return;
       this.colorSequence.forEach((element) => {
-        element.destroy()
+        element.destroy();
       });
-      this.colorSequence = []
-      this.colorHight = 0
-      this.scene.updateBalance(this.price)
+      this.colorSequence = [];
+      this.colorHight = 0;
+      this.scene.updateBalance(this.price);
 
       this.price = 0;
       this.sellGlass.text = `SELL FOR:\n${this.price}`;
-
     });
   }
 
@@ -62,15 +61,15 @@ export default class Glass extends Phaser.GameObjects.Sprite {
       });
       this.scene.time.delayedCall(500, () => {
         this.colorSequence.forEach((element) => {
-          element.destroy()
+          element.destroy();
         });
-        this.colorSequence = []
-        this.colorHight = 0
-        this.price = 0
-  
+        this.colorSequence = [];
+        this.colorHight = 0;
+        this.price = 0;
+
         this.price = 0;
         this.sellGlass.text = `SELL FOR:\n${this.price}`;
-      })
+      });
     }
     console.log(this.colorSequence[0].texture.key);
     switch (this.colorSequence[0].texture.key) {
@@ -78,6 +77,11 @@ export default class Glass extends Phaser.GameObjects.Sprite {
         this.price =
           this.scene.bet *
           this.highestPriceSequence[this.colorSequence.length - 1];
+        break;
+      case "Blue":
+        this.price =
+          this.scene.bet *
+          this.middlePriceSequence[this.colorSequence.length - 1];
         break;
       case "Purple":
         this.price =
@@ -87,7 +91,12 @@ export default class Glass extends Phaser.GameObjects.Sprite {
       case "Green":
         this.price =
           this.scene.bet *
-          this.middlePriceSequence[this.colorSequence.length - 1];
+          this.smallestPriceSequence[this.colorSequence.length - 1];
+        break;
+      case "Red":
+        this.price =
+          this.scene.bet *
+          this.smallestPriceSequence[this.colorSequence.length - 1];
         break;
       case "Orange":
         this.price =

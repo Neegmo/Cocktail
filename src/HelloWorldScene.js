@@ -10,7 +10,7 @@ export default class HelloWorldScene extends Phaser.Scene {
 
   getNextColorButton;
 
-  colorSequence = ["Pink", "Purple", "Green", "Yellow", "Orange"];
+  colorSequence = ["Pink", "Blue", "Purple", "Orange","Yellow", "Green", "Red"];
 
   nextColor;
 
@@ -31,6 +31,7 @@ export default class HelloWorldScene extends Phaser.Scene {
     this.load.image("Yellow", "Yellow.png");
     this.load.image("Pink", "Pink.png");
     this.load.image("Purple", "Purple.png");
+    this.load.image("Red", "Red.png");
   }
 
   create() {
@@ -78,16 +79,20 @@ export default class HelloWorldScene extends Phaser.Scene {
     this.nextColorNumber = Phaser.Math.Between(1, 100);
     console.log(this.nextColorNumber)
 
-    if (this.nextColorNumber < 6) {
+    if (this.nextColorNumber < 1) {
       this.nextColor = this.colorSequence[0];
-    } else if (this.nextColorNumber < 18) {
+    } else if (this.nextColorNumber < 8.5) {
       this.nextColor = this.colorSequence[1];
-    } else if (this.nextColorNumber < 30) {
+    } else if (this.nextColorNumber < 16) {
       this.nextColor = this.colorSequence[2];
-    } else if (this.nextColorNumber < 66) {
+    } else if (this.nextColorNumber < 37) {
       this.nextColor = this.colorSequence[3];
-    } else {
+    } else if (this.nextColorNumber < 58) {
       this.nextColor = this.colorSequence[4];
+    } else if (this.nextColorNumber < 79) {
+      this.nextColor = this.colorSequence[5];
+    } else {
+      this.nextColor = this.colorSequence[6];
     }
   }
 
