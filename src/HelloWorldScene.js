@@ -122,13 +122,13 @@ export default class HelloWorldScene extends Phaser.Scene {
     this.nextColorNumber = Phaser.Math.Between(1, 100);
     console.log(this.nextColorNumber);
 
-    if (this.nextColorNumber < 5) {
+    if (this.nextColorNumber < 9) {
       this.nextColor = this.colorSequence[0];
-    } else if (this.nextColorNumber < 17) {
+    } else if (this.nextColorNumber < 25) {
       this.nextColor = this.colorSequence[1];
-    } else if (this.nextColorNumber < 29) {
+    } else if (this.nextColorNumber < 41) {
       this.nextColor = this.colorSequence[2];
-    } else if (this.nextColorNumber < 65) {
+    } else if (this.nextColorNumber < 71) {
       this.nextColor = this.colorSequence[3];
     } else {
       this.nextColor = this.colorSequence[4];
