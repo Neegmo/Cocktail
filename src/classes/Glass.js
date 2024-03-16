@@ -110,6 +110,11 @@ export default class Glass extends Phaser.GameObjects.Sprite {
           this.scene.bet *
           this.scene.smallestPriceSequence[this.colorSequence.length - 1];
         break;
+      case "Red":
+        this.price =
+          this.scene.bet *
+          this.scene.smallestPriceSequence[this.colorSequence.length - 1];
+        break;
       case "Black":
         this.price = 0;
         break;

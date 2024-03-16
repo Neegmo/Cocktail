@@ -10,7 +10,7 @@ export default class HelloWorldScene extends Phaser.Scene {
 
   getNextColorButton;
 
-  colorSequence = ["Pink", "Blue", "Purple", "Orange", "Yellow"];
+  colorSequence = ["Pink", "Blue", "Purple", "Orange", "Yellow", "Red"];
 
   nextColor;
 
@@ -78,6 +78,7 @@ export default class HelloWorldScene extends Phaser.Scene {
 
     this.add.image(730, 200, "Orange").setScale(0.5, 0.5);
     this.add.image(930, 200, "Yellow").setScale(0.5, 0.5);
+    this.add.image(830, 100, "Red").setScale(0.5, 0.5);
 
     this.add.text(
       840,
@@ -128,10 +129,12 @@ export default class HelloWorldScene extends Phaser.Scene {
       this.nextColor = this.colorSequence[1];
     } else if (this.nextColorNumber < 41) {
       this.nextColor = this.colorSequence[2];
-    } else if (this.nextColorNumber < 71) {
+    } else if (this.nextColorNumber < 61) {
       this.nextColor = this.colorSequence[3];
-    } else {
+    } else if (this.nextColorNumber < 81) {
       this.nextColor = this.colorSequence[4];
+    }else {
+      this.nextColor = this.colorSequence[5];
     }
   }
 
