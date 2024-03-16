@@ -18,9 +18,9 @@ export default class HelloWorldScene extends Phaser.Scene {
 
   canGenerateColor = true;
 
-  highestPriceSequence = [2, 7, 25, 40, 70, 150];
-  middlePriceSequence = [0.5, 1.5, 3, 7.5, 15, 25];
-  smallestPriceSequence = [0.25, 0.75, 1.8, 2.7, 5.5, 12];
+  highestPriceSequence = [2, 8, 20, 40, 100, 500];
+  middlePriceSequence = [0.5, 1.25, 3.5, 10, 20, 30];
+  smallestPriceSequence = [0.25, 0.5, 1.8, 2.5, 6, 10];
 
   preload() {
     this.load.baseURL = "Assets/";
