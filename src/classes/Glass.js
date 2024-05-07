@@ -40,13 +40,15 @@ export default class Glass extends Phaser.GameObjects.Sprite {
 
       this.glassCountdown = 5;
       this.glassCountdownText.text = `${this.glassCountdown}`;
+      
+      this.destroySigns()
     });
 
     this.glassCountdown = 5;
     this.scene.add
       .image(this.x + 55, this.y - 100, "GlassCountdown")
       .setScale(0.4, 0.4)
-      .setDepth(2)
+      .setDepth(2);
     this.glassCountdownText = scene.add
       .text(this.x + 55, this.y - 80, `${this.glassCountdown}`, {
         font: "600 35px Roboto",
@@ -58,28 +60,27 @@ export default class Glass extends Phaser.GameObjects.Sprite {
 
   addNextShot(color) {
     // this.colorSequence = [...this.colorSequence, color]
-    let texture
-    if(this.colorSequence.length === 0){
-      texture = color.key
-    }
-    else if(this.colorSequence.length === 5)
-    {
-      texture = color.key+"Top"
-    }
-    else {
-      texture = color.key+"Mid"
+    let texture;
+    if (this.colorSequence.length === 0) {
+      texture = color.key;
+    } else if (this.colorSequence.length === 5) {
+      texture = color.key + "Top";
+      this.createPerfectSign();
+    } else {
+      texture = color.key + "Mid";
     }
 
-    
-    console.log(texture)
+    console.log(texture);
     let shotColor = this.scene.add
       .sprite(this.x, this.y + 55 + this.colorHight, texture)
       .setScale(0.5, 0.5);
-      shotColor.setData('color', color.key)
+    shotColor.setData("color", color.key);
     this.colorHight -= 22;
     if (this.colorSequence[0] === undefined) {
       this.colorSequence.push(shotColor);
-    } else if (shotColor.getData('color') === this.colorSequence[0].getData('color')) {
+    } else if (
+      shotColor.getData("color") === this.colorSequence[0].getData("color")
+    ) {
       this.colorSequence.push(shotColor);
       this.glassCountdown = 5;
       this.glassCountdownText.text = `${this.glassCountdown}`;
@@ -88,22 +89,26 @@ export default class Glass extends Phaser.GameObjects.Sprite {
       this.spoilCocktail();
     }
 
-    this.setPrice()
-    
+    this.setPrice();
+
     this.sellGlass.text = `SELL ${this.price}`;
   }
 
   spoilCocktail() {
+    this.destroySigns()
+
+    this.createBadSign()
     this.colorSequence.forEach((element, index) => {
-      if(index === 0)
-      {
+      if (index === 0) {
         element.setTexture("Black");
+      } else if(index === 5) {
+        element.setTexture("BlackTop");
       }
       else {
         element.setTexture("BlackMid");
       }
     });
-    this.scene.time.delayedCall(500, () => {
+    this.scene.time.delayedCall(1200, () => {
       this.colorSequence.forEach((element) => {
         element.destroy();
       });
@@ -116,6 +121,7 @@ export default class Glass extends Phaser.GameObjects.Sprite {
 
       this.glassCountdown = 5;
       this.glassCountdownText.text = `${this.glassCountdown}`;
+      this.destroySigns()
     });
   }
 
@@ -157,29 +163,80 @@ export default class Glass extends Phaser.GameObjects.Sprite {
     }
   }
 
+  createPerfectSign() {
+    this.perfectSign = this.scene.add
+      .image(this.x, this.y, "PerfectText")
+      .setScale(0.4, 0.4)
+      .setDepth(4);
+
+    this.tween = this.scene.tweens.add({
+      targets: this.perfectSign,
+      scaleX: 0.5,
+      scaleY: 0.5,
+      yoyo: true,
+      repeat: -1,
+      ease: "Sine.easeInOut",
+      duration: 1000,
+    });
+  }
+
+  createLastChanceToSellSign() {
+    this.lastChanceToSellSign = this.scene.add
+      .image(this.x, this.y, "LastChanceToSellText")
+      .setDepth(4);
+
+    this.tween = this.scene.tweens.add({
+      targets: this.lastChanceToSellSign,
+      scaleX: 1.1,
+      scaleY: 1.1,
+      yoyo: true,
+      repeat: -1,
+      ease: "Sine.easeInOut",
+      duration: 500,
+    });
+  }
+
+  createBadSign() {
+    this.badSign = this.scene.add
+      .image(this.x, this.y, "BadText")
+      .setScale(0.4, 0.4)
+      .setDepth(4);
+
+    this.tween = this.scene.tweens.add({
+      targets: this.badSign,
+      scaleX: 0.7,
+      scaleY: 0.7,
+      ease: "Sine.easeIn",
+      duration: 700,
+    });
+  }
+
+  destroySigns() {
+    if (this.perfectSign) this.perfectSign.destroy();
+    if (this.lastChanceToSellSign) this.lastChanceToSellSign.destroy();
+    if (this.badSign) this.badSign.destroy();
+
+    if (this.tween && this.tween.isPlaying()) {
+      this.tween.stop();
+      this.tween.remove();
+    }
+
+    this.tween = null
+    this.perfectSign = null
+    this.lastChanceToSellSign = null
+    this.badSign = null
+  }
+
   countDown() {
     if (this.colorSequence.length === 0) return;
     this.glassCountdown--;
     this.glassCountdownText.text = `${this.glassCountdown}`;
 
+    if (this.glassCountdown === 1) {
+      this.createLastChanceToSellSign();
+    }
     if (this.glassCountdown <= 0) {
-      this.colorSequence.forEach((element) => {
-        element.setTexture("Black");
-      });
-      this.scene.time.delayedCall(500, () => {
-        this.colorSequence.forEach((element) => {
-          element.destroy();
-        });
-        this.colorSequence = [];
-        this.colorHight = 0;
-        this.price = 0;
-
-        this.price = 0;
-        this.sellGlass.text = `SELL ${this.price}`;
-      });
-
-      this.glassCountdown = 5;
-      this.glassCountdownText.text = `${this.glassCountdown}`;
+     this.spoilCocktail()
     }
   }
 }

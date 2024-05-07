@@ -59,9 +59,14 @@ export default class HelloWorldScene extends Phaser.Scene {
     this.load.image("RedTop", "Images/RedTop.png");
     this.load.image("GlassCountdown", "Images/GlassCountdown.png");
     this.load.image("Button", "Images/Button.png");
+    this.load.image("PerfectText", "Images/PerfectText.png");
+    this.load.image("LastChanceToSellText", "Images/LastChanceToSellText.png");
+    this.load.image("BadText", "Images/BadText.png");
   }
 
   create() {
+    console.log(Phaser.Math.FloatBetween(0.2, 4.2))
+
     this.add.image(0, 0, "BG").setOrigin(0, 0);
 
     this.createGlasses();
@@ -146,7 +151,6 @@ export default class HelloWorldScene extends Phaser.Scene {
 
   getRandomColor() {
     this.nextColorNumber = Phaser.Math.Between(1, 100);
-    console.log(this.nextColorNumber);
 
     if (this.nextColorNumber < 9) {
       this.nextColor = this.colorSequence[0];
@@ -166,7 +170,6 @@ export default class HelloWorldScene extends Phaser.Scene {
   createNextShot() {
     if (this.nextShot != undefined || !this.canGenerateColor) return;
     this.getRandomColor();
-    console.log("Next shot")
     this.nextShot = this.add
       .image(this.shotGlass.x, 10, this.nextColor)
       .setScale(this.globalScale, this.globalScale)
@@ -205,9 +208,8 @@ export default class HelloWorldScene extends Phaser.Scene {
       yoyo: false,
       repeat: 0,
       ease: "Sine.easeOut",
-      duration: 500,
+      duration: 400,
       onComplete: () => {
-        console.log("Movement completed");
         glass.addNextShot(this.nextShot.texture);
         this.nextShot.destroy();
         this.nextShot = undefined;
@@ -216,9 +218,8 @@ export default class HelloWorldScene extends Phaser.Scene {
           angle: "-=120",
           yoyo: true,
           ease: "Sine.easeInOut",
-          duration: 500,
+          duration: 200,
           onComplete: () => {
-            console.log("Rotation complete!");
             this.tweens.add({
               targets: this.shotGlass,
               x: x,
@@ -226,7 +227,7 @@ export default class HelloWorldScene extends Phaser.Scene {
               yoyo: false,
               repeat: 0,
               ease: "Sine.easeOut",
-              duration: 500,
+              duration: 400,
               onComplete: () => {
                 this.canGenerateColor = true;
               },
