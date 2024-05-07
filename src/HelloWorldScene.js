@@ -11,6 +11,7 @@ export default class HelloWorldScene extends Phaser.Scene {
   getNextColorButton;
 
   colorSequence = ["Pink", "Blue", "Purple", "Orange", "Yellow", "Red"];
+  // colorSequence = ["Orange", "Orange","Orange","Orange","Orange","Orange"];
 
   nextColor;
 
@@ -18,24 +19,46 @@ export default class HelloWorldScene extends Phaser.Scene {
 
   canGenerateColor = true;
 
-  highestPriceSequence = [2, 8, 20, 40, 100, 500];
-  middlePriceSequence = [0.5, 1.25, 3.5, 5, 10, 25];
-  smallestPriceSequence = [0.25, 0.5, 1.8, 2.5, 6, 10];
+  globalScale = 0.5
+
+  highestPriceSequence = [2, 8, 15, 50, 100, 500];
+  middlePriceSequence = [0.5, 1.25, 3, 5, 10, 20];
+  smallestPriceSequence = [0.15, 0.5, 1.5, 2, 5, 10];
 
   preload() {
+    this.loadFont("troika", "Assets/Fonts/troika.otf");
+
     this.load.baseURL = "Assets/";
 
-    this.load.image("BG", "BG.png");
-    this.load.image("Glass", "Glass.png");
-    this.load.image("ShotGlass", "ShotGlass.png");
-    this.load.image("Orange", "Orange.png");
-    this.load.image("Green", "Green.png");
-    this.load.image("Blue", "Blue.png");
-    this.load.image("Black", "Black.png");
-    this.load.image("Yellow", "Yellow.png");
-    this.load.image("Pink", "Pink.png");
-    this.load.image("Purple", "Purple.png");
-    this.load.image("Red", "Red.png");
+    this.load.image("BG", "Images/BG2.png");
+    this.load.image("Glass", "Images/Glass.png");
+    this.load.image("GlassTop", "Images/GlassTop.png");
+    this.load.image("ShotGlass", "Images/ShotGlass.png");
+    this.load.image("Orange", "Images/Orange.png");
+    this.load.image("OrangeMid", "Images/OrangeMid.png");
+    this.load.image("OrangeTop", "Images/OrangeTop.png");
+    this.load.image("Green", "Images/Green.png");
+    this.load.image("GreenMid", "Images/GreenMid.png");
+    this.load.image("Blue", "Images/Blue.png");
+    this.load.image("BlueMid", "Images/BlueMid.png");
+    this.load.image("BlueTop", "Images/BlueTop.png");
+    this.load.image("Black", "Images/Black.png");
+    this.load.image("BlackMid", "Images/BlackMid.png");
+    this.load.image("BlackTop", "Images/BlackTop.png");
+    this.load.image("Yellow", "Images/Yellow.png");
+    this.load.image("YellowMid", "Images/YellowMid.png");
+    this.load.image("YellowTop", "Images/YellowTop.png");
+    this.load.image("Pink", "Images/Pink.png");
+    this.load.image("PinkMid", "Images/PinkMid.png");
+    this.load.image("PinkTop", "Images/PinkTop.png");
+    this.load.image("Purple", "Images/Purple.png");
+    this.load.image("PurpleMid", "Images/PurpleMid.png");
+    this.load.image("PurpleTop", "Images/PurpleTop.png");
+    this.load.image("Red", "Images/Red.png");
+    this.load.image("RedMid", "Images/RedMid.png");
+    this.load.image("RedTop", "Images/RedTop.png");
+    this.load.image("GlassCountdown", "Images/GlassCountdown.png");
+    this.load.image("Button", "Images/Button.png");
   }
 
   create() {
@@ -47,14 +70,15 @@ export default class HelloWorldScene extends Phaser.Scene {
 
     this.createHUD();
 
-    this.shotGlass = this.add.image(530, 1500, "ShotGlass").setScale(0.5, 0.5);
+    this.shotGlass = this.add.image(540, 1385, "Glass").setScale(this.globalScale, this.globalScale).setDepth(2);
+    // this.shotGlassTop = this.add.image(540, 1385, "GlassTop").setScale(this.globalScale, this.globalScale).setDepth(2);
 
-    this.createLegend();
+    // this.createLegend();
   }
 
   createLegend() {
-    this.add.image(130, 200, "Blue").setScale(0.5, 0.5);
-    this.add.image(330, 200, "Purple").setScale(0.5, 0.5);
+    this.add.image(130, 200, "Blue").setScale(this.globalScale, this.globalScale);
+    this.add.image(330, 200, "Purple").setScale(this.globalScale, this.globalScale);
 
     this.add.text(
       250,
@@ -65,7 +89,7 @@ export default class HelloWorldScene extends Phaser.Scene {
       }
     ).setOrigin(0.5, 0.5);
 
-    this.add.image(530, 200, "Pink").setScale(0.5, 0.5);
+    this.add.image(530, 200, "Pink").setScale(this.globalScale, this.globalScale);
 
     this.add.text(
       540,
@@ -76,9 +100,9 @@ export default class HelloWorldScene extends Phaser.Scene {
       }
     ).setOrigin(0.5, 0.5);
 
-    this.add.image(730, 200, "Orange").setScale(0.5, 0.5);
-    this.add.image(930, 200, "Yellow").setScale(0.5, 0.5);
-    this.add.image(830, 100, "Red").setScale(0.5, 0.5);
+    this.add.image(730, 200, "Orange").setScale(this.globalScale, this.globalScale);
+    this.add.image(930, 200, "Yellow").setScale(this.globalScale, this.globalScale);
+    this.add.image(830, 100, "Red").setScale(this.globalScale, this.globalScale);
 
     this.add.text(
       840,
@@ -93,29 +117,30 @@ export default class HelloWorldScene extends Phaser.Scene {
   update() {
     if (this.nextShot === undefined) return;
     this.nextShot.x = this.shotGlass.x;
-    this.nextShot.y = this.shotGlass.y + 25;
+    this.nextShot.y = this.shotGlass.y + 55;
     // this.nextShot.Rotation = this.shotGlass.rotation
     this.nextShot.setRotation(this.shotGlass.rotation);
   }
 
   createHUD() {
     this.balance = 1000;
-    this.balanceText = this.add.text(20, 100, `Balance: ${this.balance}`, {
-      fontSize: "40px",
-    });
+    this.balanceText = this.add.text(540, 1925, `Balance: ${this.balance}`, {
+      fontSize: "80px",
+      fontFamily: "troika",
+    }).setOrigin(0.5, 0.5);
   }
 
   createGlasses() {
-    this.glass1 = new Glass(this, 280, 1100, "Glass");
-    this.glass1.setScale(0.5, 0.5);
+    this.glass1 = new Glass(this, 300, 1050, "Glass");
+    this.glass1.setScale(this.globalScale, this.globalScale);
     this.add.existing(this.glass1);
 
-    this.glass2 = new Glass(this, 530, 1100, "Glass");
-    this.glass2.setScale(0.5, 0.5);
+    this.glass2 = new Glass(this, 540, 1050, "Glass");
+    this.glass2.setScale(this.globalScale, this.globalScale);
     this.add.existing(this.glass2);
 
-    this.glass3 = new Glass(this, 780, 1100, "Glass");
-    this.glass3.setScale(0.5, 0.5);
+    this.glass3 = new Glass(this, 780, 1050, "Glass");
+    this.glass3.setScale(this.globalScale, this.globalScale);
     this.add.existing(this.glass3);
   }
 
@@ -141,9 +166,11 @@ export default class HelloWorldScene extends Phaser.Scene {
   createNextShot() {
     if (this.nextShot != undefined || !this.canGenerateColor) return;
     this.getRandomColor();
+    console.log("Next shot")
     this.nextShot = this.add
-      .image(530, 1525, this.nextColor)
-      .setScale(0.5, 0.5);
+      .image(this.shotGlass.x, 10, this.nextColor)
+      .setScale(this.globalScale, this.globalScale)
+      .setDepth(3);
     this.updateBalance(-10);
     this.canGenerateColor = false;
 
@@ -153,9 +180,9 @@ export default class HelloWorldScene extends Phaser.Scene {
   }
 
   createGetNextColorButton() {
-    this.getNextColorButton = this.add.image(540, 1800, "Black");
+    this.getNextColorButton = this.add.image(540, 1670, "Button");
     this.getNextColorButton.setInteractive();
-    this.add.text(435, 1790, "Buy Shot", { fontSize: "40px" });
+    this.add.text(540, 1670, " ", { fontSize: "40px" }).setOrigin(0.5, 0.5);
     this.getNextColorButton.on("pointerover", () => {
       this.getNextColorButton.setAlpha(0.8);
     });
@@ -174,7 +201,7 @@ export default class HelloWorldScene extends Phaser.Scene {
     this.tweens.add({
       targets: this.shotGlass,
       x: glass.x + 50,
-      y: glass.y - 400,
+      y: glass.y - 300,
       yoyo: false,
       repeat: 0,
       ease: "Sine.easeOut",
@@ -213,5 +240,17 @@ export default class HelloWorldScene extends Phaser.Scene {
   updateBalance(ammount) {
     this.balance += ammount;
     this.balanceText.text = `Balance: ${this.balance}`;
+  }
+
+  loadFont(name, url) {
+    var newFont = new FontFace(name, `url(${url})`);
+    newFont
+      .load()
+      .then(function (loaded) {
+        document.fonts.add(loaded);
+      })
+      .catch(function (error) {
+        return error;
+      });
   }
 }
