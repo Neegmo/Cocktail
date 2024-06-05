@@ -19,7 +19,7 @@ export default class HelloWorldScene extends Phaser.Scene {
 
   canGenerateColor = true;
 
-  globalScale = 0.5
+  globalScale = 0.5;
 
   highestPriceSequence = [2, 8, 15, 50, 100, 500];
   middlePriceSequence = [0.5, 1.25, 3, 5, 10, 20];
@@ -30,7 +30,7 @@ export default class HelloWorldScene extends Phaser.Scene {
 
     this.load.baseURL = "Assets/";
 
-    this.load.image("BG", "Images/BG2.png");
+    this.load.image("BG", "Images/BG3.png");
     this.load.image("Glass", "Images/Glass.png");
     this.load.image("GlassTop", "Images/GlassTop.png");
     this.load.image("ShotGlass", "Images/ShotGlass.png");
@@ -65,7 +65,7 @@ export default class HelloWorldScene extends Phaser.Scene {
   }
 
   create() {
-    console.log(Phaser.Math.FloatBetween(0.2, 4.2))
+    console.log(Phaser.Math.FloatBetween(0.2, 4.2));
 
     this.add.image(0, 0, "BG").setOrigin(0, 0);
 
@@ -75,48 +75,69 @@ export default class HelloWorldScene extends Phaser.Scene {
 
     this.createHUD();
 
-    this.shotGlass = this.add.image(540, 1385, "Glass").setScale(this.globalScale, this.globalScale).setDepth(2);
+    this.shotGlass = this.add
+      .image(540, 1385, "Glass")
+      .setScale(this.globalScale, this.globalScale)
+      .setDepth(2);
     // this.shotGlassTop = this.add.image(540, 1385, "GlassTop").setScale(this.globalScale, this.globalScale).setDepth(2);
 
     // this.createLegend();
   }
 
   createLegend() {
-    this.add.image(130, 200, "Blue").setScale(this.globalScale, this.globalScale);
-    this.add.image(330, 200, "Purple").setScale(this.globalScale, this.globalScale);
+    this.add
+      .image(130, 200, "Blue")
+      .setScale(this.globalScale, this.globalScale);
+    this.add
+      .image(330, 200, "Purple")
+      .setScale(this.globalScale, this.globalScale);
 
-    this.add.text(
-      250,
-      400,
-      `1: x${this.middlePriceSequence[0]}\n2: x${this.middlePriceSequence[1]}\n3: x${this.middlePriceSequence[2]}\n4: x${this.middlePriceSequence[3]}\n5: x${this.middlePriceSequence[4]}\n6: x${this.middlePriceSequence[5]}\n`,
-      {
-        font: "600 35px Roboto",
-      }
-    ).setOrigin(0.5, 0.5);
+    this.add
+      .text(
+        250,
+        400,
+        `1: x${this.middlePriceSequence[0]}\n2: x${this.middlePriceSequence[1]}\n3: x${this.middlePriceSequence[2]}\n4: x${this.middlePriceSequence[3]}\n5: x${this.middlePriceSequence[4]}\n6: x${this.middlePriceSequence[5]}\n`,
+        {
+          font: "600 35px Roboto",
+        }
+      )
+      .setOrigin(0.5, 0.5);
 
-    this.add.image(530, 200, "Pink").setScale(this.globalScale, this.globalScale);
+    this.add
+      .image(530, 200, "Pink")
+      .setScale(this.globalScale, this.globalScale);
 
-    this.add.text(
-      540,
-      400,
-      `1: x${this.highestPriceSequence[0]}\n2: x${this.highestPriceSequence[1]}\n3: x${this.highestPriceSequence[2]}\n4: x${this.highestPriceSequence[3]}\n5: x${this.highestPriceSequence[4]}\n6: x${this.highestPriceSequence[5]}\n`,
-      {
-        font: "600 35px Roboto",
-      }
-    ).setOrigin(0.5, 0.5);
+    this.add
+      .text(
+        540,
+        400,
+        `1: x${this.highestPriceSequence[0]}\n2: x${this.highestPriceSequence[1]}\n3: x${this.highestPriceSequence[2]}\n4: x${this.highestPriceSequence[3]}\n5: x${this.highestPriceSequence[4]}\n6: x${this.highestPriceSequence[5]}\n`,
+        {
+          font: "600 35px Roboto",
+        }
+      )
+      .setOrigin(0.5, 0.5);
 
-    this.add.image(730, 200, "Orange").setScale(this.globalScale, this.globalScale);
-    this.add.image(930, 200, "Yellow").setScale(this.globalScale, this.globalScale);
-    this.add.image(830, 100, "Red").setScale(this.globalScale, this.globalScale);
+    this.add
+      .image(730, 200, "Orange")
+      .setScale(this.globalScale, this.globalScale);
+    this.add
+      .image(930, 200, "Yellow")
+      .setScale(this.globalScale, this.globalScale);
+    this.add
+      .image(830, 100, "Red")
+      .setScale(this.globalScale, this.globalScale);
 
-    this.add.text(
-      840,
-      400,
-      `1: x${this.smallestPriceSequence[0]}\n2: x${this.smallestPriceSequence[1]}\n3: x${this.smallestPriceSequence[2]}\n4: x${this.smallestPriceSequence[3]}\n5: x${this.smallestPriceSequence[4]}\n6: x${this.smallestPriceSequence[5]}\n`,
-      {
-        font: "600 35px Roboto",
-      }
-    ).setOrigin(0.5, 0.5);
+    this.add
+      .text(
+        840,
+        400,
+        `1: x${this.smallestPriceSequence[0]}\n2: x${this.smallestPriceSequence[1]}\n3: x${this.smallestPriceSequence[2]}\n4: x${this.smallestPriceSequence[3]}\n5: x${this.smallestPriceSequence[4]}\n6: x${this.smallestPriceSequence[5]}\n`,
+        {
+          font: "600 35px Roboto",
+        }
+      )
+      .setOrigin(0.5, 0.5);
   }
 
   update() {
@@ -129,10 +150,12 @@ export default class HelloWorldScene extends Phaser.Scene {
 
   createHUD() {
     this.balance = 1000;
-    this.balanceText = this.add.text(540, 1925, `Balance: ${this.balance}`, {
-      fontSize: "80px",
-      fontFamily: "troika",
-    }).setOrigin(0.5, 0.5);
+    this.balanceText = this.add
+      .text(540, 1925, `Balance: ${this.balance}`, {
+        fontSize: "80px",
+        fontFamily: "troika",
+      })
+      .setOrigin(0.5, 0.5);
   }
 
   createGlasses() {
@@ -162,7 +185,7 @@ export default class HelloWorldScene extends Phaser.Scene {
       this.nextColor = this.colorSequence[3];
     } else if (this.nextColorNumber < 81) {
       this.nextColor = this.colorSequence[4];
-    }else {
+    } else {
       this.nextColor = this.colorSequence[5];
     }
   }
