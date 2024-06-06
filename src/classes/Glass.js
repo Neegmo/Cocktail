@@ -12,14 +12,20 @@ export default class Glass extends Phaser.GameObjects.Sprite {
     this.setInteractive();
 
     this.on("pointerup", () => {
-      if (this.colorSequence.length >= 6 || scene.canGenerateColor) return;
+      if (
+        this.colorSequence.length >= 6 ||
+        scene.canGenerateColor ||
+        scene.glassMoving
+      )
+        return;
+      scene.glassMoving = true;
       scene.moveShotGlassToTarget(this);
     });
 
     this.sellGlass = scene.add
-      .text(this.x, this.y + 140, `SELL ${this.price}`, {
+      .text(this.x, this.y + 125, `SELL ${this.price}`, {
         font: "400 40px troika",
-        color: "#000000",
+        // color: "#000000",
         align: "center",
       })
       .setOrigin(0.5, 0.5);
@@ -40,8 +46,8 @@ export default class Glass extends Phaser.GameObjects.Sprite {
 
       this.glassCountdown = 5;
       this.glassCountdownText.text = `${this.glassCountdown}`;
-      
-      this.destroySigns()
+
+      this.destroySigns();
     });
 
     this.glassCountdown = 5;
@@ -89,22 +95,23 @@ export default class Glass extends Phaser.GameObjects.Sprite {
       this.spoilCocktail();
     }
 
+    if (this.lastChanceToSellSign) this.lastChanceToSellSign.destroy();
+
     this.setPrice();
 
     this.sellGlass.text = `SELL ${this.price}`;
   }
 
   spoilCocktail() {
-    this.destroySigns()
+    this.destroySigns();
 
-    this.createBadSign()
+    this.createBadSign();
     this.colorSequence.forEach((element, index) => {
       if (index === 0) {
         element.setTexture("Black");
-      } else if(index === 5) {
+      } else if (index === 5) {
         element.setTexture("BlackTop");
-      }
-      else {
+      } else {
         element.setTexture("BlackMid");
       }
     });
@@ -121,7 +128,7 @@ export default class Glass extends Phaser.GameObjects.Sprite {
 
       this.glassCountdown = 5;
       this.glassCountdownText.text = `${this.glassCountdown}`;
-      this.destroySigns()
+      this.destroySigns();
     });
   }
 
@@ -155,7 +162,7 @@ export default class Glass extends Phaser.GameObjects.Sprite {
       case "Red":
         this.price =
           this.scene.bet *
-          this.scene.smallestPriceSequence[this.colorSequence.length - 1];
+          this.scene.middlePriceSequence[this.colorSequence.length - 1];
         break;
       case "Black":
         this.price = 0;
@@ -221,10 +228,10 @@ export default class Glass extends Phaser.GameObjects.Sprite {
       this.tween.remove();
     }
 
-    this.tween = null
-    this.perfectSign = null
-    this.lastChanceToSellSign = null
-    this.badSign = null
+    this.tween = null;
+    this.perfectSign = null;
+    this.lastChanceToSellSign = null;
+    this.badSign = null;
   }
 
   countDown() {
@@ -236,7 +243,7 @@ export default class Glass extends Phaser.GameObjects.Sprite {
       this.createLastChanceToSellSign();
     }
     if (this.glassCountdown <= 0) {
-     this.spoilCocktail()
+      this.spoilCocktail();
     }
   }
 }

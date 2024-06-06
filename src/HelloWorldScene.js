@@ -10,8 +10,8 @@ export default class HelloWorldScene extends Phaser.Scene {
 
   getNextColorButton;
 
-  colorSequence = ["Pink", "Blue", "Purple", "Orange", "Yellow", "Red"];
-  // colorSequence = ["Orange", "Orange","Orange","Orange","Orange","Orange"];
+  // colorSequence = ["Pink", "Blue", "Purple", "Orange", "Yellow", "Red"];
+  colorSequence = ["Orange", "Orange", "Orange", "Orange", "Orange", "Orange"];
 
   nextColor;
 
@@ -24,6 +24,8 @@ export default class HelloWorldScene extends Phaser.Scene {
   highestPriceSequence = [2, 8, 15, 50, 100, 500];
   middlePriceSequence = [0.5, 1.25, 3, 5, 10, 20];
   smallestPriceSequence = [0.15, 0.5, 1.5, 2, 5, 10];
+
+  glassMoving = false;
 
   preload() {
     this.loadFont("troika", "Assets/Fonts/troika.otf");
@@ -253,6 +255,7 @@ export default class HelloWorldScene extends Phaser.Scene {
               duration: 400,
               onComplete: () => {
                 this.canGenerateColor = true;
+                this.glassMoving = false;
               },
             });
           },
