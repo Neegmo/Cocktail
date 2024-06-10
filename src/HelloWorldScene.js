@@ -10,8 +10,8 @@ export default class HelloWorldScene extends Phaser.Scene {
 
   getNextColorButton;
 
-  // colorSequence = ["Pink", "Blue", "Purple", "Orange", "Yellow", "Red"];
-  colorSequence = ["Orange", "Orange", "Orange", "Orange", "Orange", "Orange"];
+  colorSequence = ["Pink", "Blue", "Purple", "Orange", "Yellow", "Red"];
+  // colorSequence = ["Orange", "Orange", "Orange", "Orange", "Orange", "Orange"];
 
   nextColor;
 
