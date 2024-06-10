@@ -64,6 +64,40 @@ export default class Glass extends Phaser.GameObjects.Sprite {
       .setDepth(3);
   }
 
+  populateGlassFromSequence(sequence, countDown) {
+    this.colorSequence.forEach((element) => {
+      element.destroy();
+    });
+    this.colorSequence = [];
+    this.destroySigns();
+    if (sequence === undefined) {
+      this.colorHight = 0;
+      this.glassCountdown = 5;
+      this.glassCountdownText.text = `${this.glassCountdown}`;
+      this.setPrice();
+      this.sellGlass.text = `SELL ${this.price}`;
+      return;
+    }
+    sequence.forEach((element) => {
+      this.scene.add.existing(element);
+      let x = element.x;
+      let y = element.y;
+      let texture = element.texture.key;
+
+      let nextColor = this.scene.add.sprite(x, y, texture).setScale(0.5, 0.5);
+      this.colorSequence.push(nextColor);
+      this.colorSequence[0].setData("color", this.colorSequence[0].texture.key);
+    });
+    this.colorHight = this.colorSequence.length * -22;
+    this.glassCountdown = countDown;
+    this.glassCountdownText.text = `${this.glassCountdown}`;
+    this.setPrice();
+    this.sellGlass.text = `SELL ${this.price}`;
+
+    if (this.colorSequence.length === 5) this.createPerfectSign();
+    if (this.glassCountdown === 1) this.createLastChanceToSellSign();
+  }
+
   addNextShot(color) {
     // this.colorSequence = [...this.colorSequence, color]
     let texture;
@@ -75,8 +109,6 @@ export default class Glass extends Phaser.GameObjects.Sprite {
     } else {
       texture = color.key + "Mid";
     }
-
-    console.log(texture);
     let shotColor = this.scene.add
       .sprite(this.x, this.y + 55 + this.colorHight, texture)
       .setScale(0.5, 0.5);
@@ -100,6 +132,8 @@ export default class Glass extends Phaser.GameObjects.Sprite {
     this.setPrice();
 
     this.sellGlass.text = `SELL ${this.price}`;
+
+    console.log(this.colorHight);
   }
 
   spoilCocktail() {
@@ -133,6 +167,10 @@ export default class Glass extends Phaser.GameObjects.Sprite {
   }
 
   setPrice() {
+    if (this.colorSequence === undefined || this.colorSequence.length < 1) {
+      this.price = 0;
+      return;
+    }
     switch (this.colorSequence[0].texture.key) {
       case "Pink":
         this.price =

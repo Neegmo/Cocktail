@@ -13,6 +13,26 @@ export default class HelloWorldScene extends Phaser.Scene {
   colorSequence = ["Pink", "Blue", "Purple", "Orange", "Yellow", "Red"];
   // colorSequence = ["Orange", "Orange", "Orange", "Orange", "Orange", "Orange"];
 
+  betSequence = [
+    10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170,
+    180, 190, 200, 210, 220, 230, 240, 250, 260, 270, 280, 290, 300, 310, 320,
+    330, 340, 350, 360, 370, 380, 390, 400, 410, 420, 430, 440, 450, 460, 470,
+    480, 490, 500, 510, 520, 530, 540, 550, 560, 570, 580, 590, 600, 610, 620,
+    630, 640, 650, 660, 670, 680, 690, 700, 710, 720, 730, 740, 750, 760, 770,
+    780, 790, 800, 810, 820, 830, 840, 850, 860, 870, 880, 890, 900, 910, 920,
+    930, 940, 950, 960, 970, 980, 990, 1000,
+  ];
+
+  glass1Sequence = [];
+  glass2Sequence = [];
+  glass3Sequence = [];
+
+  glass1Countdown = [];
+  glass2Countdown = [];
+  glass3Countdown = [];
+
+  betIndex = 0;
+
   nextColor;
 
   bet = 10;
@@ -64,10 +84,12 @@ export default class HelloWorldScene extends Phaser.Scene {
     this.load.image("PerfectText", "Images/PerfectText.png");
     this.load.image("LastChanceToSellText", "Images/LastChanceToSellText.png");
     this.load.image("BadText", "Images/BadText.png");
+    this.load.image("ArrowLeft", "Images/ArrowLeft.png");
+    this.load.image("ArrowRight", "Images/ArrowRight.png");
   }
 
   create() {
-    console.log(Phaser.Math.FloatBetween(0.2, 4.2));
+    this.betIndex = 0;
 
     this.add.image(0, 0, "BG").setOrigin(0, 0);
 
@@ -81,6 +103,8 @@ export default class HelloWorldScene extends Phaser.Scene {
       .image(540, 1385, "Glass")
       .setScale(this.globalScale, this.globalScale)
       .setDepth(2);
+
+    this.createBetChangingSprites();
     // this.shotGlassTop = this.add.image(540, 1385, "GlassTop").setScale(this.globalScale, this.globalScale).setDepth(2);
 
     // this.createLegend();
@@ -158,6 +182,88 @@ export default class HelloWorldScene extends Phaser.Scene {
         fontFamily: "troika",
       })
       .setOrigin(0.5, 0.5);
+
+    this.bet = this.betSequence[this.betIndex];
+    this.betText = this.add
+      .text(540, 1685, `BET: ${this.bet}`, {
+        fontSize: "50px",
+        fontFamily: "troika",
+      })
+      .setOrigin(0.5, 0.5);
+  }
+
+  createBetChangingSprites() {
+    this.increaseBetButton = this.add
+      .image(800, 1670, "ArrowRight")
+      .setInteractive();
+    this.increaseBetButton.on("pointerup", () => {
+      this.increaseBet();
+    });
+    this.decreaseBetButton = this.add
+      .image(280, 1670, "ArrowLeft")
+      .setInteractive();
+    this.decreaseBetButton.on("pointerup", () => {
+      this.decreaseBet();
+    });
+  }
+
+  increaseBet() {
+    if (this.betIndex >= 100) return;
+
+    this.glass1Sequence[this.betIndex] = this.glass1.colorSequence;
+    this.glass1Countdown[this.betIndex] = this.glass1.glassCountdown;
+    this.glass2Sequence[this.betIndex] = this.glass2.colorSequence;
+    this.glass2Countdown[this.betIndex] = this.glass2.glassCountdown;
+    this.glass3Sequence[this.betIndex] = this.glass3.colorSequence;
+    this.glass3Countdown[this.betIndex] = this.glass3.glassCountdown;
+
+    this.betIndex++;
+    this.bet = this.betSequence[this.betIndex];
+    this.betText.text = `BET: ${this.bet}`;
+
+    this.glass1.populateGlassFromSequence(
+      this.glass1Sequence[this.betIndex],
+      this.glass1Countdown[this.betIndex]
+    );
+    this.glass2.populateGlassFromSequence(
+      this.glass2Sequence[this.betIndex],
+      this.glass2Countdown[this.betIndex]
+    );
+    this.glass3.populateGlassFromSequence(
+      this.glass3Sequence[this.betIndex],
+      this.glass3Countdown[this.betIndex]
+    );
+  }
+
+  decreaseBet() {
+    if (this.betIndex <= 0) return;
+
+    this.glass1Sequence[this.betIndex] = this.glass1.colorSequence;
+    this.glass1Countdown[this.betIndex] = this.glass1.glassCountdown;
+    this.glass2Sequence[this.betIndex] = this.glass2.colorSequence;
+    this.glass2Countdown[this.betIndex] = this.glass2.glassCountdown;
+    this.glass3Sequence[this.betIndex] = this.glass3.colorSequence;
+    this.glass3Countdown[this.betIndex] = this.glass3.glassCountdown;
+
+    this.betIndex--;
+    this.bet = this.betSequence[this.betIndex];
+    this.betText.text = `BET: ${this.bet}`;
+
+    this.bet = this.betSequence[this.betIndex];
+    this.betText.text = `BET: ${this.bet}`;
+
+    this.glass1.populateGlassFromSequence(
+      this.glass1Sequence[this.betIndex],
+      this.glass1Countdown[this.betIndex]
+    );
+    this.glass2.populateGlassFromSequence(
+      this.glass2Sequence[this.betIndex],
+      this.glass2Countdown[this.betIndex]
+    );
+    this.glass3.populateGlassFromSequence(
+      this.glass3Sequence[this.betIndex],
+      this.glass3Countdown[this.betIndex]
+    );
   }
 
   createGlasses() {
@@ -193,13 +299,15 @@ export default class HelloWorldScene extends Phaser.Scene {
   }
 
   createNextShot() {
+    this.increaseBetButton.setAlpha(0);
+    this.decreaseBetButton.setAlpha(0);
     if (this.nextShot != undefined || !this.canGenerateColor) return;
     this.getRandomColor();
     this.nextShot = this.add
       .image(this.shotGlass.x, 10, this.nextColor)
       .setScale(this.globalScale, this.globalScale)
       .setDepth(3);
-    this.updateBalance(-10);
+    this.updateBalance(-this.bet);
     this.canGenerateColor = false;
 
     this.glass1.countDown();
@@ -256,6 +364,8 @@ export default class HelloWorldScene extends Phaser.Scene {
               onComplete: () => {
                 this.canGenerateColor = true;
                 this.glassMoving = false;
+                this.increaseBetButton.setAlpha(1);
+                this.decreaseBetButton.setAlpha(1);
               },
             });
           },
