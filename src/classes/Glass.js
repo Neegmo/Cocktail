@@ -56,8 +56,8 @@ export default class Glass extends Phaser.GameObjects.Sprite {
       .setScale(0.4, 0.4)
       .setDepth(2);
     this.glassCountdownText = scene.add
-      .text(this.x + 55, this.y - 80, `${this.glassCountdown}`, {
-        font: "600 35px Roboto",
+      .text(this.x + 57, this.y - 85, `${this.glassCountdown}`, {
+        font: "50px Troika",
         align: "center",
       })
       .setOrigin(0.5, 0.5)
