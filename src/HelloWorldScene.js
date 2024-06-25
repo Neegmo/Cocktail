@@ -47,6 +47,7 @@ export default class HelloWorldScene extends Phaser.Scene {
 
   glassMoving = false;
 
+  //Added for git commit
   preload() {
     this.loadFont("troika", "Assets/Fonts/troika.otf");
 
@@ -87,17 +88,17 @@ export default class HelloWorldScene extends Phaser.Scene {
     this.load.image("ArrowLeft", "Images/ArrowLeft.png");
     this.load.image("ArrowRight", "Images/ArrowRight.png");
 
-    this.load.audio("BGMusic", ["sounds/BG1.mp3"]);
-    this.load.audio("BGMusic2", ["sounds/BG2.mp3"]);
-    this.load.audio("BGMusic3", ["sounds/BG3.mp3"]);
-    this.load.audio("BadCocktail", ["sounds/BadCocktail.mp3"]);
-    this.load.audio("BuyShot", ["sounds/BuyShot.mp3"]);
-    this.load.audio("DecreaseBalance", ["sounds/DecreaseBalance.mp3"]);
-    this.load.audio("IncreaseBalance", ["sounds/IncreaseBalance.mp3"]);
-    this.load.audio("LastChanceToSell", ["sounds/LastChanceToSell.mp3"]);
-    this.load.audio("Perfect", ["sounds/Perfect.mp3"]);
-    this.load.audio("Pour", ["sounds/Pour.mp3"]);
-    this.load.audio("Sell", ["sounds/Sell.mp3"]);
+    this.load.audio("BGMusic", ["Sounds/BG1.mp3"]);
+    this.load.audio("BGMusic2", ["Sounds/BG2.mp3"]);
+    this.load.audio("BGMusic3", ["Sounds/BG3.mp3"]);
+    this.load.audio("BadCocktail", ["Sounds/BadCocktail.mp3"]);
+    this.load.audio("BuyShot", ["Sounds/BuyShot.mp3"]);
+    this.load.audio("DecreaseBalance", ["Sounds/DecreaseBalance.mp3"]);
+    this.load.audio("IncreaseBalance", ["Sounds/IncreaseBalance.mp3"]);
+    this.load.audio("LastChanceToSell", ["Sounds/LastChanceToSell.mp3"]);
+    this.load.audio("Perfect", ["Sounds/Perfect.mp3"]);
+    this.load.audio("Pour", ["Sounds/Pour.mp3"]);
+    this.load.audio("Sell", ["Sounds/Sell.mp3"]);
   }
 
   create() {
