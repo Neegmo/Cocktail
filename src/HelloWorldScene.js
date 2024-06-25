@@ -86,6 +86,18 @@ export default class HelloWorldScene extends Phaser.Scene {
     this.load.image("BadText", "Images/BadText.png");
     this.load.image("ArrowLeft", "Images/ArrowLeft.png");
     this.load.image("ArrowRight", "Images/ArrowRight.png");
+
+    this.load.audio("BGMusic", ["sounds/BG1.mp3"]);
+    this.load.audio("BGMusic2", ["sounds/BG2.mp3"]);
+    this.load.audio("BGMusic3", ["sounds/BG3.mp3"]);
+    this.load.audio("BadCocktail", ["sounds/BadCocktail.mp3"]);
+    this.load.audio("BuyShot", ["sounds/BuyShot.mp3"]);
+    this.load.audio("DecreaseBalance", ["sounds/DecreaseBalance.mp3"]);
+    this.load.audio("IncreaseBalance", ["sounds/IncreaseBalance.mp3"]);
+    this.load.audio("LastChanceToSell", ["sounds/LastChanceToSell.mp3"]);
+    this.load.audio("Perfect", ["sounds/Perfect.mp3"]);
+    this.load.audio("Pour", ["sounds/Pour.mp3"]);
+    this.load.audio("Sell", ["sounds/Sell.mp3"]);
   }
 
   create() {
@@ -108,6 +120,105 @@ export default class HelloWorldScene extends Phaser.Scene {
     // this.shotGlassTop = this.add.image(540, 1385, "GlassTop").setScale(this.globalScale, this.globalScale).setDepth(2);
 
     // this.createLegend();
+    this.addSounds();
+
+    this.createBGSoundButtons();
+  }
+
+  addSounds() {
+    if (!this.BGMusic || !this.BGMusic.isPlaying) {
+      this.BGMusic = this.sound.add("BGMusic", { loop: true, volume: 0.1 });
+      this.BGMusic.play();
+    }
+    if (!this.BGMusic2 || !this.BGMusic2.isPlaying) {
+      this.BGMusic2 = this.sound.add("BGMusic2", { loop: true, volume: 0.2 });
+    }
+    if (!this.BGMusic3 || !this.BGMusic3.isPlaying) {
+      this.BGMusic3 = this.sound.add("BGMusic3", { loop: true, volume: 0.2 });
+    }
+    if (!this.BadCocktailSound || !this.BadCocktailSound.isPlaying) {
+      this.BadCocktailSound = this.sound.add("BadCocktail", {
+        loop: false,
+      });
+    }
+    if (!this.BuyShotSound || !this.BuyShotSound.isPlaying) {
+      this.BuyShotSound = this.sound.add("BuyShot", {
+        loop: false,
+      });
+    }
+    if (!this.DecreaseBetSound || !this.DecreaseBetSound.isPlaying) {
+      this.DecreaseBetSound = this.sound.add("DecreaseBalance", {
+        loop: false,
+      });
+    }
+    if (!this.IncreaseBetSound || !this.IncreaseBetSound.isPlaying) {
+      this.IncreaseBetSound = this.sound.add("IncreaseBalance", {
+        loop: false,
+      });
+    }
+    if (!this.LastChanceToSellSound || !this.LastChanceToSellSound.isPlaying) {
+      this.LastChanceToSellSound = this.sound.add("LastChanceToSell", {
+        loop: false,
+      });
+    }
+    if (!this.PerfectSound || !this.PerfectSound.isPlaying) {
+      this.PerfectSound = this.sound.add("Perfect", {
+        loop: false,
+      });
+    }
+    if (!this.PourSound || !this.PourSound.isPlaying) {
+      this.PourSound = this.sound.add("Pour", { loop: false });
+    }
+    if (!this.SellSound || !this.SellSound.isPlaying) {
+      this.SellSound = this.sound.add("Sell", { loop: false });
+    }
+  }
+
+  createBGSoundButtons() {
+    this.BGSound1 = this.add
+      .text(50, 50, `BG1`, {
+        font: "400 60px troika",
+        // color: "#000000",
+        align: "center",
+      })
+      .setOrigin(0.5, 0.5);
+
+    this.BGSound1.setInteractive();
+    this.BGSound1.on("pointerup", () => {
+      this.BGMusic.play();
+      this.BGMusic2.stop();
+      this.BGMusic3.stop();
+    });
+
+    this.BGSound2 = this.add
+      .text(50, 100, `BG2`, {
+        font: "400 60px troika",
+        // color: "#000000",
+        align: "center",
+      })
+      .setOrigin(0.5, 0.5);
+
+    this.BGSound2.setInteractive();
+    this.BGSound2.on("pointerup", () => {
+      this.BGMusic.stop();
+      this.BGMusic2.play();
+      this.BGMusic3.stop();
+    });
+
+    this.BGSound3 = this.add
+      .text(50, 150, `BG3`, {
+        font: "400 60px troika",
+        // color: "#000000",
+        align: "center",
+      })
+      .setOrigin(0.5, 0.5);
+
+    this.BGSound3.setInteractive();
+    this.BGSound3.on("pointerup", () => {
+      this.BGMusic.stop();
+      this.BGMusic2.stop();
+      this.BGMusic3.play();
+    });
   }
 
   createLegend() {
@@ -198,12 +309,14 @@ export default class HelloWorldScene extends Phaser.Scene {
       .setInteractive();
     this.increaseBetButton.on("pointerup", () => {
       this.increaseBet();
+      this.IncreaseBetSound.play();
     });
     this.decreaseBetButton = this.add
       .image(280, 1670, "ArrowLeft")
       .setInteractive();
     this.decreaseBetButton.on("pointerup", () => {
       this.decreaseBet();
+      this.DecreaseBetSound.play();
     });
   }
 
@@ -326,6 +439,7 @@ export default class HelloWorldScene extends Phaser.Scene {
       this.getNextColorButton.setAlpha(1);
     });
     this.getNextColorButton.on("pointerdown", () => {
+      this.BuyShotSound.play();
       this.createNextShot();
     });
   }
@@ -343,6 +457,7 @@ export default class HelloWorldScene extends Phaser.Scene {
       ease: "Sine.easeOut",
       duration: 400,
       onComplete: () => {
+        this.PourSound.play();
         glass.addNextShot(this.nextShot.texture);
         this.nextShot.destroy();
         this.nextShot = undefined;

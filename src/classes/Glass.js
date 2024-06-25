@@ -34,6 +34,7 @@ export default class Glass extends Phaser.GameObjects.Sprite {
 
     this.sellGlass.on("pointerup", () => {
       if (!scene.canGenerateColor) return;
+      scene.SellSound.play();
       this.colorSequence.forEach((element) => {
         element.destroy();
       });
@@ -209,6 +210,7 @@ export default class Glass extends Phaser.GameObjects.Sprite {
   }
 
   createPerfectSign() {
+    this.scene.PerfectSound.play();
     this.perfectSign = this.scene.add
       .image(this.x, this.y, "PerfectText")
       .setScale(0.4, 0.4)
@@ -226,6 +228,7 @@ export default class Glass extends Phaser.GameObjects.Sprite {
   }
 
   createLastChanceToSellSign() {
+    this.scene.LastChanceToSellSound.play();
     this.lastChanceToSellSign = this.scene.add
       .image(this.x, this.y, "LastChanceToSellText")
       .setDepth(4);
@@ -242,6 +245,7 @@ export default class Glass extends Phaser.GameObjects.Sprite {
   }
 
   createBadSign() {
+    this.scene.BadCocktailSound.play();
     this.badSign = this.scene.add
       .image(this.x, this.y, "BadText")
       .setScale(0.4, 0.4)
