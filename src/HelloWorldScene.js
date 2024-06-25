@@ -132,10 +132,10 @@ export default class HelloWorldScene extends Phaser.Scene {
       this.BGMusic.play();
     }
     if (!this.BGMusic2 || !this.BGMusic2.isPlaying) {
-      this.BGMusic2 = this.sound.add("BGMusic2", { loop: true, volume: 0.2 });
+      this.BGMusic2 = this.sound.add("BGMusic2", { loop: true, volume: 0.1 });
     }
     if (!this.BGMusic3 || !this.BGMusic3.isPlaying) {
-      this.BGMusic3 = this.sound.add("BGMusic3", { loop: true, volume: 0.2 });
+      this.BGMusic3 = this.sound.add("BGMusic3", { loop: true, volume: 0.1 });
     }
     if (!this.BadCocktailSound || !this.BadCocktailSound.isPlaying) {
       this.BadCocktailSound = this.sound.add("BadCocktail", {
